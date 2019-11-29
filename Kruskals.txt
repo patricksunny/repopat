@@ -1,0 +1,65 @@
+import java.util.*;
+
+public class Kruskals
+{
+	public static void msTree(int[][] cost,int n,int e)
+	{
+		int[] parent=new int[15];
+		int[][] t=new int[15][3];
+		int min,s=0,d=0,i,j,k=1,mincost=0; 
+		while(k<n && e>0)
+		{
+			min=99999;
+			for(i=1;i<=n;i++)
+				for(j=1;j<=n;j++)
+					if(i<j && cost[i][j]<min)
+					{
+						min=cost[i][j];
+						s=i;d=j;
+					}
+			e--;
+
+			cost[s][d]=9999;
+			if(parent[s]!=1)
+				parent[s]=1;
+			else
+				continue;
+			mincost+=min;
+			t[k][1]=s; t[k++][2]=d;
+		}
+		if(k!=n)
+			System.out.println("NO SPANNING TREE");
+		
+
+else
+		{
+			System.out.println("MINIMUM SPANNING TREE:");
+			for(i=1;i<n;i++)
+				System.out.println(t[i][1]+" TO "+t[i][2]);
+			System.out.println("MINIMUM COST="+mincost);
+		}
+	}
+	public static void main(String args[])
+	{
+		int cost[][]=new int[15][15];
+		int i,j,n,e=0;
+		Scanner s=new Scanner(System.in);
+		System.out.print("ENTER NO OF VERTICES:");
+		n=s.nextInt();
+		for(i=1;i<=n;i++)
+			for(j=1;j<=n;j++)
+				cost[i][j]=9999;
+		System.out.println("ENTER EDGE, COST AS[1 2 15] FOR EDGE 1->2 COST=15");
+		System.out.println("DONT ENTER FOR 2->1 AGAIN, TO END ENTER [-1]");
+		while(true)
+		{
+			i=s.nextInt();
+			if(i==-1)
+				break;
+			j=s.nextInt();
+			cost[i][j]=cost[j][i]=s.nextInt();
+			e++;			
+		}
+		msTree(cost,n,e);
+	}
+}
